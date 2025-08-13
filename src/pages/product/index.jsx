@@ -1,7 +1,17 @@
-import React from 'react';
+import Banner from './banner';
+import Choice from './choice';
 
 const Product = () => {
-  return <div>Product</div>;
+  return (
+    <section>
+      <div>
+        <Banner />
+      </div>
+      <div>
+        <Choice></Choice>
+      </div>
+    </section>
+  );
 };
 
 export default Product;
