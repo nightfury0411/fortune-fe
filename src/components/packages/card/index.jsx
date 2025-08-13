@@ -1,10 +1,7 @@
-import { Button, message } from 'antd';
+import { Button } from 'antd';
 
-const PackageCard = ({ pkg }) => {
+const PackageCard = ({ pkg, isBuy, handleBuyPackage }) => {
   const [priceValue, priceUnit] = pkg.price.split(' ');
-  const handleBuyPackage = () => {
-    message.info('Tính năng đang được phát triển');
-  };
 
   return (
     <div className="bg-white max-w-[392px] rounded-xl p-6 shadow-md">
@@ -27,23 +24,24 @@ const PackageCard = ({ pkg }) => {
             <span className="block text-base font-medium">{priceUnit}</span>
           </div>
         </div>
-
-        <div className="h-12 flex items-center justify-center mt-2 ">
-          <Button
-            onClick={handleBuyPackage}
-            type="primary"
-            className="text-white font-semibold px-8 shadow-md !py-5 rounded-lg mb-4 transition"
-          >
-            MUA GÓI
-          </Button>
-        </div>
+        {isBuy && (
+          <div className="h-12 flex items-center justify-center mt-2 ">
+            <Button
+              onClick={handleBuyPackage}
+              type="primary"
+              className="text-white font-semibold px-8 shadow-md !py-5 rounded-lg mb-4 transition"
+            >
+              MUA GÓI
+            </Button>
+          </div>
+        )}
       </div>
 
       <div className="min-h-[200px] flex flex-col justify-start">
         <div className="flex flex-col space-y-3">
           {pkg.features.map((feature, index) => (
             <div key={index} className="flex items-start">
-              <div className="relative w-4 h-4 mt-1 mr-3 flex-shrink-0">
+              <div className="relative w-4 h-4 mt-1.5 mr-3 flex-shrink-0">
                 <span className="absolute w-4 h-4 bg-primary text-primary rounded-full"></span>
                 <span className="absolute w-1.5 h-1.5 bg-white rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></span>
               </div>
