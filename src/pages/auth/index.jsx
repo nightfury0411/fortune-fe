@@ -1,7 +1,7 @@
 import { CheckCircleOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import LOGO_WEB from '../../assets/logo_web.webp';
+import LOGO_WEB from '../../assets/images/logo_web.webp';
 import Login from './login';
 import Register from './register';
 

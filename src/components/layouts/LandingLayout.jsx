@@ -5,7 +5,7 @@ const LandingLayout = ({ children }) => {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen">{children}</main>
+      <main className="min-h-screen bg-sub3">{children}</main>
       <Footer />
     </>
   );

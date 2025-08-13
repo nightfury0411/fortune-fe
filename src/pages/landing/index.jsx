@@ -1,10 +1,24 @@
-import Packages from '../../components/packages';
+import Banner from './banner';
+import Functions from './functions';
+import Solution from './solution';
+import Request from './request';
 
 const LandingPage = () => {
   return (
-    <div className="bg-sub3 min-h-screen">
-      <Packages />
-    </div>
+    <section>
+      <div>
+        <Banner />
+      </div>
+      <div className="py-16 bg-white">
+        <Functions />
+      </div>
+      <div className="py-16">
+        <Solution />
+      </div>
+      <div className="pt-16">
+        <Request />
+      </div>
+    </section>
   );
 };
 

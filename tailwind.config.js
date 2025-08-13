@@ -17,6 +17,7 @@ export default {
       colors: {
         primary: '#454699',
         sub3: '#F6F6F6',
+        'base-color': '#444444',
       },
     },
   },

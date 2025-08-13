@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import LOGO_WEB from '../../assets/logo_web.webp';
+import LOGO_WEB from '../../assets/images/logo_web.webp';
 import NotificationBell from '../NotificationBell';
 import NavElements from './NavElements';
 import UserDropdown from './UserDropdown';
