@@ -1,5 +1,11 @@
+import PackageCard from '../../components/PackageCard';
+
 const LandingPage = () => {
-  return <div>LandingPage</div>;
+  return (
+    <div>
+      <PackageCard />
+    </div>
+  );
 };
 
 export default LandingPage;

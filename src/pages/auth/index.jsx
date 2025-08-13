@@ -1,11 +1,19 @@
 import { CheckCircleOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import LOGO_WEB from '../../assets/logo_web.webp';
 import Login from './login';
 import Register from './register';
 
 function AuthPage() {
+  const location = useLocation();
   const [isLoginForm, setIsLoginForm] = useState(true);
+
+  useEffect(() => {
+    if (location.state && typeof location.state.isLoginForm === 'boolean') {
+      setIsLoginForm(location.state.isLoginForm);
+    }
+  }, [location.state]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50 flex">

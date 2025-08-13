@@ -8,12 +8,16 @@ const PATH_NAME = {
 
 const NAV_ELEMENTS = [
   {
-    name: 'TRANG CHỦ',
+    name: 'Sản phẩm',
     path: '/',
   },
   {
-    name: 'VỀ CHÚNG TÔI',
-    path: '/contact',
+    name: 'Bảng giá',
+    path: '/cost',
+  },
+  {
+    name: 'Tư vấn dịch vụ',
+    path: '/service',
   },
 ];
 

@@ -1,10 +1,9 @@
-import { Button } from 'antd';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LOGO_WEB from '../../assets/logo_web.webp';
 import NotificationBell from '../NotificationBell';
-import UserMenu from '../UserMenu';
 import NavElements from './NavElements';
+import UserDropdown from './UserDropdown';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -13,14 +12,6 @@ const Navbar = () => {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const handleLogin = () => {
-    setUser({
-      name: 'Tuan An',
-      email: 'ancntse171335@fpt.edu.vn',
-      avatar: null,
-    });
   };
 
   const handleLogout = () => {
@@ -45,39 +36,15 @@ const Navbar = () => {
             </nav>
 
             <div className="flex items-center space-x-3">
-              {user ? (
-                <>
-                  <NotificationBell count={notificationCount} />
-                  <div className="h-8 w-px bg-gray-300" />
-                  <UserMenu user={user} onLogout={handleLogout} />
-                </>
-              ) : (
-                <Button
-                  type="primary"
-                  onClick={handleLogin}
-                  className=" text-white px-6 !py-5 rounded-lg font-medium transition-colors duration-200 shadow-sm hover:shadow-md"
-                >
-                  Đăng nhập
-                </Button>
-              )}
+              {user && <NotificationBell count={notificationCount} />}
+              {user && <div className="h-8 w-px bg-gray-300" />}
+              <UserDropdown user={user} onLogout={handleLogout} />
             </div>
           </div>
 
           <div className="flex items-center space-x-2 lg:hidden">
-            {user ? (
-              <>
-                <NotificationBell count={notificationCount} />
-                <UserMenu user={user} onLogout={handleLogout} mobile />
-              </>
-            ) : (
-              <Button
-                type="primary"
-                onClick={handleLogin}
-                className=" text-white px-6 !py-5 rounded-lg font-medium transition-colors duration-200 shadow-sm hover:shadow-md"
-              >
-                Đăng nhập
-              </Button>
-            )}
+            {user && <NotificationBell count={notificationCount} />}
+            <UserDropdown user={user} onLogout={handleLogout} />
 
             <button
               onClick={toggleMobileMenu}
@@ -112,10 +79,9 @@ const Navbar = () => {
         </div>
 
         <div
-          className={`
-          lg:hidden overflow-hidden transition-all duration-300 ease-in-out
-          ${isMobileMenuOpen ? 'max-h-64 pb-4' : 'max-h-0'}
-        `}
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            isMobileMenuOpen ? 'max-h-64 pb-4' : 'max-h-0'
+          }`}
         >
           <nav className="flex flex-col space-y-2 pt-4 border-t border-gray-200">
             <NavElements
