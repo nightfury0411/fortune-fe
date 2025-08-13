@@ -4,6 +4,8 @@ const PATH_NAME = {
   NOT_FOUND: '*',
   MEMBER: '/member',
   ADMIN: '/admin',
+  COST: '/cost',
+  SERVICE: '/service',
 };
 
 const NAV_ELEMENTS = [

@@ -10,6 +10,8 @@ import GuestRoute from './GuestRoute';
 
 const LandingPage = lazy(() => import('../pages/landing'));
 const AdminHome = lazy(() => import('../pages/admin'));
+const ServicePage = lazy(() => import('../pages/service'));
+const CostPage = lazy(() => import('../pages/cost'));
 
 const withSuspense = (Component) => (
   <Suspense
@@ -34,6 +36,14 @@ const router = createBrowserRouter([
       {
         path: PATH_NAME.HOME,
         element: withSuspense(LandingPage),
+      },
+      {
+        path: PATH_NAME.SERVICE,
+        element: withSuspense(ServicePage),
+      },
+      {
+        path: PATH_NAME.COST,
+        element: withSuspense(CostPage),
       },
       // {
       //   element: <MemberRoutes />,

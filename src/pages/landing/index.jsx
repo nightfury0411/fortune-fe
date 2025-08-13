@@ -1,9 +1,9 @@
-import PackageCard from '../../components/PackageCard';
+import Packages from '../../components/packages';
 
 const LandingPage = () => {
   return (
-    <div>
-      <PackageCard />
+    <div className="bg-sub3 min-h-screen">
+      <Packages />
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { Button } from 'antd';
+import React from 'react';
 
 const packages = [
   {
@@ -12,6 +13,18 @@ const packages = [
       'Trọn gói minigames',
       'Được cấp quyền tuỳ chỉnh nâng cao: Nền tảng Wheels of Fortune',
       'Hỗ trợ thuê nhân lực, thiết bị, địa điểm',
+    ],
+  },
+  {
+    title: 'ADVANCED',
+    description:
+      'Gói nâng cao, gia tăng trải nghiệm loạt minigames hấp dẫn với với nhu cầu tổ chức sự kiện có tần suất trung bình.',
+    price: '1.000.000 VNĐ/tháng',
+    features: [
+      '4 sự kiện / tháng',
+      'Bản kế hoạch tuỳ chỉnh theo yêu cầu',
+      'Trọn gói minigames',
+      'Được cấp quyền trải nghiệm: Nền tảng Wheels of Fortune',
     ],
   },
   {
@@ -31,17 +44,28 @@ const packages = [
 const PackageCard = ({ pkg }) => {
   const [priceValue, priceUnit] = pkg.price.split(' ');
   return (
-    <div className="bg-white w-[392px] rounded-xl p-6 shadow-md flex flex-col justify-between h-full">
-      <div>
-        <div className="flex flex-col items-center mb-4 justify-center">
-          <h2 className="text-2xl font-bold text-primary mb-2">{pkg.title}</h2>
-          <p className="text-[#444444] font-medium mb-4 text-center">
+    <div className="bg-white w-[392px] rounded-xl p-6 shadow-md">
+      <div className="flex flex-col items-center mb-6">
+        <div className="h-16 flex items-center justify-center">
+          <h2 className="text-2xl font-bold text-primary text-center">
+            {pkg.title}
+          </h2>
+        </div>
+
+        <div className="h-20 flex items-center justify-center">
+          <p className="text-gray-600 font-medium text-center leading-tight">
             {pkg.description}
           </p>
-          <div className="text-3xl font-semibold text-primary mb-4 text-center">
+        </div>
+
+        <div className="h-20 flex flex-col items-center justify-center">
+          <div className="text-3xl font-semibold text-primary text-center">
             {priceValue}
             <span className="block text-base font-medium">{priceUnit}</span>
           </div>
+        </div>
+
+        <div className="h-12 flex items-center justify-center mt-2 ">
           <Button
             type="primary"
             className="text-white font-semibold px-8 shadow-md !py-5 rounded-lg mb-4 transition"
@@ -49,15 +73,19 @@ const PackageCard = ({ pkg }) => {
             MUA GÓI
           </Button>
         </div>
+      </div>
 
-        <div className="flex flex-col items-start space-y-4">
+      <div className="min-h-[200px] flex flex-col justify-start">
+        <div className="flex flex-col space-y-3">
           {pkg.features.map((feature, index) => (
-            <div key={index} className="flex items-center jus">
-              <div className="relative w-4 h-4 mt-0.5 mr-3 flex-shrink-0">
-                <span className="absolute w-4 h-4 bg-primary rounded-full"></span>
+            <div key={index} className="flex items-start">
+              <div className="relative w-4 h-4 mt-1 mr-3 flex-shrink-0">
+                <span className="absolute w-4 h-4 bg-primary text-primary rounded-full"></span>
                 <span className="absolute w-1.5 h-1.5 bg-white rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></span>
               </div>
-              <span className="text-[#444444] font-medium">{feature}</span>
+              <span className="text-gray-600 font-medium leading-relaxed">
+                {feature}
+              </span>
             </div>
           ))}
         </div>
@@ -68,15 +96,13 @@ const PackageCard = ({ pkg }) => {
 
 const Packages = () => {
   return (
-    <div className="bg-gray-200 p-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {packages.map((pkg, index) => (
-          <PackageCard key={index} pkg={pkg} />
-        ))}
-        {packages.length < 3 &&
-          Array.from({ length: 3 - packages.length }).map((_, i) => (
-            <div key={`empty-${i}`} className="bg-transparent h-full"></div>
+    <div className="bg-gray-200 p-8 min-h-screen">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+          {packages.map((pkg, index) => (
+            <PackageCard key={index} pkg={pkg} />
           ))}
+        </div>
       </div>
     </div>
   );
