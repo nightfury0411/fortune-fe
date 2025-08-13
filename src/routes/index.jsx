@@ -12,6 +12,7 @@ const LandingPage = lazy(() => import('../pages/landing'));
 const AdminHome = lazy(() => import('../pages/admin'));
 const ServicePage = lazy(() => import('../pages/service'));
 const CostPage = lazy(() => import('../pages/cost'));
+const ProductPage = lazy(() => import('../pages/product'));
 
 const withSuspense = (Component) => (
   <Suspense
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: PATH_NAME.HOME,
         element: withSuspense(LandingPage),
+      },
+      {
+        path: PATH_NAME.PRODUCT,
+        element: withSuspense(ProductPage),
       },
       {
         path: PATH_NAME.SERVICE,

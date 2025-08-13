@@ -1,6 +1,7 @@
 const PATH_NAME = {
   HOME: '/',
   AUTH: '/auth',
+  PRODUCT: '/product',
   NOT_FOUND: '*',
   MEMBER: '/member',
   ADMIN: '/admin',
@@ -11,7 +12,7 @@ const PATH_NAME = {
 const NAV_ELEMENTS = [
   {
     name: 'Sản phẩm',
-    path: '/',
+    path: '/product',
   },
   {
     name: 'Bảng giá',
