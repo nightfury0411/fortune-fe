@@ -27,7 +27,9 @@ const uploadMiniGame = ({ mgName, mgDes, publicId, file }) => {
 };
 
 const getMiniGameDownload = (id) => {
-  return axiosClient.get(`/MiniGame/download/${id}`);
+  return axiosClient.get(`/MiniGame/download/${id}`, {
+    responseType: 'arraybuffer',
+  });
 };
 
 export {

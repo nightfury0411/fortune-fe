@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LOGO_WEB from '../../assets/images/logo_web.webp';
+import { useLogout } from '../../hooks/useLogout';
 import NotificationBell from '../NotificationBell';
 import NavElements from './NavElements';
 import UserDropdown from './UserDropdown';
@@ -9,12 +10,14 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [notificationCount] = useState(3);
+  const logout = useLogout();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const handleLogout = () => {
+    logout();
     setUser(null);
   };
 

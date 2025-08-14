@@ -123,7 +123,7 @@ function Register({ onSwitchToLogin }) {
         </Form.Item>
 
         <Form.Item
-          name="fullname"
+          name="fullName"
           rules={[
             { required: true, message: 'Vui lòng nhập họ và tên!' },
             { min: 3, message: 'Họ và tên tối thiểu 3 ký tự' },

@@ -6,7 +6,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { useMutation } from '@tanstack/react-query';
-import { Button, Checkbox, Form, Input, message } from 'antd';
+import { Button, Checkbox, Form, Input } from 'antd';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 import { useState } from 'react';
@@ -25,17 +25,23 @@ function Login({ onSwitchToLogin }) {
   const { mutate: loginMutate, isPending: isLoadingLogin } = useMutation({
     mutationFn: login,
     onSuccess: (res) => {
+      localStorage.setItem(
+        'user',
+        JSON.stringify({ username: 'guest', isGuest: true }),
+      );
       notify('success', { description: 'Đăng nhập thành công' });
 
-      const accessToken = res?.data?.accessToken;
-      const refreshToken = res?.data?.refreshToken;
+      const accessToken = res?.data;
+      const refreshToken = res?.data;
 
       if (accessToken && refreshToken) {
         Cookies.set('accessToken', accessToken);
-        Cookies.set('refreshToken', refreshToken);
         const decoded = jwtDecode(accessToken);
-        const role = decoded['role'];
-        if (role === 'ADMIN') {
+        const role =
+          decoded[
+            'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+          ];
+        if (role === '0') {
           navigate(PATH_NAME.USER_INFO);
         } else {
           navigate(PATH_NAME.HOME);
@@ -73,20 +79,6 @@ function Login({ onSwitchToLogin }) {
           className="mt-2 text-blue-600 hover:text-blue-700 cursor-pointer font-medium transition-colors"
         >
           Quay về trang chủ
-        </p>
-
-        <p
-          onClick={() => {
-            localStorage.setItem(
-              'user',
-              JSON.stringify({ username: 'guest', isGuest: true }),
-            );
-            navigate('/');
-            message.success('Đăng nhập với tài khoản khách thành công');
-          }}
-          className="mt-2 text-blue-600 hover:text-blue-700 cursor-pointer font-medium transition-colors"
-        >
-          Đăng nhập với tài khoản khách
         </p>
       </div>
       <Form

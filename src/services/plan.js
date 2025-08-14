@@ -27,7 +27,9 @@ const uploadPlan = ({ mgName, mgDes, publicId, file }) => {
 };
 
 const getPlanDownload = (id) => {
-  return axiosClient.get(`/Plan/download/${id}`);
+  return axiosClient.get(`/Plan/download/${id}`, {
+    responseType: 'arraybuffer',
+  });
 };
 
 export {
