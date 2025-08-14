@@ -6,7 +6,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { useMutation } from '@tanstack/react-query';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Checkbox, Form, Input, message } from 'antd';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../../services/auth';
@@ -48,6 +48,20 @@ function Login({ onSwitchToLogin }) {
           className="mt-2 text-blue-600 hover:text-blue-700 cursor-pointer font-medium transition-colors"
         >
           Quay về trang chủ
+        </p>
+
+        <p
+          onClick={() => {
+            localStorage.setItem(
+              'user',
+              JSON.stringify({ username: 'guest', isGuest: true }),
+            );
+            navigate('/');
+            message.success('Đăng nhập với tài khoản khách thành công');
+          }}
+          className="mt-2 text-blue-600 hover:text-blue-700 cursor-pointer font-medium transition-colors"
+        >
+          Đăng nhập với tài khoản khách
         </p>
       </div>
       <Form

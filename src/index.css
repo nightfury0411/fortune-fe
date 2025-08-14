@@ -15,3 +15,15 @@
 &::-webkit-scrollbar-thumb:active {
   background-color: #c7c7c7;
 }
+
+.buy-package-form .ant-input,
+.buy-package-form .ant-input-affix-wrapper,
+.buy-package-form .ant-input-textarea {
+  border-color: #454699 !important;
+}
+
+.buy-package-form .ant-form-item-has-error .ant-input,
+.buy-package-form .ant-form-item-has-error .ant-input-affix-wrapper,
+.buy-package-form .ant-form-item-has-error .ant-input-textarea {
+  border-color: #ff4d4f !important;
+}

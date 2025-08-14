@@ -3,7 +3,7 @@ const PATH_NAME = {
   AUTH: '/auth',
   PRODUCT: '/product',
   NOT_FOUND: '*',
-  MEMBER: '/member',
+  USER: '/user',
   ADMIN: '/admin',
   COST: '/cost',
   SERVICE: '/service',

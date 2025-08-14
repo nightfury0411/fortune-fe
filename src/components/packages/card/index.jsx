@@ -1,10 +1,12 @@
 import { Button } from 'antd';
 
-const PackageCard = ({ pkg, isBuy, handleBuyPackage }) => {
+const PackageCard = ({ pkg, isBuy, handleBuyPackage, className }) => {
   const [priceValue, priceUnit] = pkg.price.split(' ');
 
   return (
-    <div className="bg-white max-w-[392px] rounded-xl p-6 shadow-md">
+    <div
+      className={`bg-white max-w-[392px] rounded-xl p-6 shadow-md ${className}`}
+    >
       <div className="flex flex-col items-center mb-6">
         <div className="h-16 flex items-center justify-center">
           <h2 className="text-2xl font-bold text-primary text-center">

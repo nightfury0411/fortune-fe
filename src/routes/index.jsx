@@ -7,12 +7,27 @@ import AuthPage from '../pages/auth';
 import NotFound from '../pages/notfound';
 import AdminRoutes from './AdminRoutes';
 import GuestRoute from './GuestRoute';
+import ScrollToTop from '../components/ScrollToTop';
+import MemberRoutes from './MemberRoutes';
+import MemberPage from '../pages/user';
 
 const LandingPage = lazy(() => import('../pages/landing'));
 const AdminHome = lazy(() => import('../pages/admin'));
 const ServicePage = lazy(() => import('../pages/service'));
 const CostPage = lazy(() => import('../pages/cost'));
 const ProductPage = lazy(() => import('../pages/product'));
+
+const PackageManagerPage = lazy(
+  () => import('../pages/user/package-management'),
+);
+const CommunityManagementPage = lazy(
+  () => import('../pages/user/community-management'),
+);
+const MemberInfoPage = lazy(() => import('../pages/user/info-management'));
+const PlanManagementPage = lazy(() => import('../pages/user/plan-management'));
+const MinigameManagementPage = lazy(
+  () => import('../pages/user/minigame-management'),
+);
 
 const withSuspense = (Component) => (
   <Suspense
@@ -30,6 +45,7 @@ const router = createBrowserRouter([
   {
     element: (
       <LandingLayout>
+        <ScrollToTop />
         <Outlet />
       </LandingLayout>
     ),
@@ -50,23 +66,31 @@ const router = createBrowserRouter([
         path: PATH_NAME.COST,
         element: withSuspense(CostPage),
       },
-      // {
-      //   element: <MemberRoutes />,
-      //   children: [
-      //     {
-      //       path: PATH_NAME.MEMBER,
-      //       element: withSuspense(MemberPage),
-      //       children: [
-      //         { path: 'info', element: withSuspense(MemberInfo) },
-      //         {
-      //           path: 'change-password',
-      //           element: withSuspense(ChangePassword),
-      //         },
-      //         { path: 'package', element: withSuspense(PackageManager) },
-      //       ],
-      //     },
-      //   ],
-      // },
+      {
+        element: <MemberRoutes />,
+        children: [
+          {
+            path: PATH_NAME.USER,
+            element: withSuspense(MemberPage),
+            children: [
+              { path: 'info', element: withSuspense(MemberInfoPage) },
+              {
+                path: 'packages',
+                element: withSuspense(PackageManagerPage),
+              },
+              { path: 'plan', element: withSuspense(PlanManagementPage) },
+              {
+                path: 'minigames',
+                element: withSuspense(MinigameManagementPage),
+              },
+              {
+                path: 'community',
+                element: withSuspense(CommunityManagementPage),
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
   {

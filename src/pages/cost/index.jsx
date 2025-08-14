@@ -1,7 +1,10 @@
-import { Button, message } from 'antd';
+import { Button } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import PackageCard from '../../components/packages/card';
+import { PATH_NAME } from '../../constants';
 
 const Cost = () => {
+  const navigate = useNavigate();
   const packages = {
     title: 'CUSTOMIZABLE',
     description:
@@ -17,11 +20,11 @@ const Cost = () => {
   };
 
   const handleBuyPackage = () => {
-    message.info('Tính năng đang được phát triển');
+    navigate(PATH_NAME.SERVICE);
   };
 
   return (
-    <section className="py-12">
+    <section className="PY-12">
       <div className="flex flex-col justify-center items-center text-center max-w-4xl mx-auto px-4 mb-12">
         <h1 className="text-primary font-bold text-xl md:text-2xl lg:text-3xl my-5">
           Gia tăng sự kết nối và gắn bó giữa nhân sự với dịch vụ cá nhân hoá tổ
@@ -35,7 +38,6 @@ const Cost = () => {
           Đăng ký ngay
         </Button>
       </div>
-
       <div className="flex justify-center">
         <PackageCard
           pkg={packages}

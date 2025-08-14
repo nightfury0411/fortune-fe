@@ -1,7 +1,25 @@
-import { Link } from 'react-router-dom';
-import { CircleUser, User, LogOut, LogIn, UserPlus } from 'lucide-react';
+import { message } from 'antd';
+import { CircleUser, LogIn, LogOut, User, UserPlus } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { PATH_NAME } from '../../constants';
 
-const UserDropdown = ({ user, onLogout }) => {
+const UserDropdown = () => {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser) setUser(storedUser);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUser(null);
+    navigate(PATH_NAME.AUTH);
+    message.success('Đăng xuất thành công');
+  };
+
   return (
     <div className="relative group">
       <CircleUser
@@ -23,13 +41,13 @@ const UserDropdown = ({ user, onLogout }) => {
         {user ? (
           <>
             <Link
-              to="/account"
+              to="/user/info"
               className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100"
             >
               <User size={16} /> Quản lý tài khoản
             </Link>
             <button
-              onClick={onLogout}
+              onClick={handleLogout}
               className="flex items-center gap-2 w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
             >
               <LogOut size={16} /> Đăng xuất
@@ -38,14 +56,14 @@ const UserDropdown = ({ user, onLogout }) => {
         ) : (
           <>
             <Link
-              to="/auth"
+              to={PATH_NAME.AUTH}
               state={{ isLoginForm: true }}
               className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100"
             >
               <LogIn size={16} /> Đăng nhập
             </Link>
             <Link
-              to="/auth"
+              to={PATH_NAME.AUTH}
               state={{ isLoginForm: false }}
               className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100"
             >
