@@ -1,6 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import REQUEST from '../../../assets/images/home/request/request.png';
+import { PATH_NAME } from '../../../constants';
 
 const Request = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="relative">
       <img
@@ -19,7 +23,10 @@ const Request = () => {
               Chỉ cần bạn đưa ra yêu cầu, chúng tôi sẽ góp những ý tưởng độc đáo
               và thực hiện hoá nó một cách hiệu quả nhất
             </p>
-            <button className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary/90 transition">
+            <button
+              onClick={() => navigate(PATH_NAME.SERVICE)}
+              className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary/90 transition"
+            >
               GỬI YÊU CẦU
             </button>
           </div>
