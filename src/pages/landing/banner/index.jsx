@@ -1,7 +1,11 @@
 import { Button } from 'antd';
 import HERO_IMAGE from '../../../assets/images/home/hero.png';
+import { useNavigate } from 'react-router-dom';
+import { PATH_NAME } from '../../../constants';
 
 const Banner = () => {
+  const navigate = useNavigate();
+
   return (
     <section>
       <div className="bg-base-color flex flex-col lg:flex-row overflow-hidden">
@@ -17,6 +21,7 @@ const Banner = () => {
 
             <div className="my-10 sm:my-16 lg:my-20 font-semibold w-full sm:w-44">
               <Button
+                onClick={() => navigate(PATH_NAME.SERVICE)}
                 type="primary"
                 className="!py-4 sm:!py-5 px-6 sm:px-8 text-base sm:text-lg font-semibold w-full sm:w-auto"
               >
@@ -33,12 +38,18 @@ const Banner = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-2 mt-4 sm:mt-6">
                 <Button
+                  onClick={() =>
+                    navigate(PATH_NAME.AUTH, { state: { isLoginForm: true } })
+                  }
                   type="primary"
                   className="!py-4 sm:!py-5 px-6 sm:px-8 text-base sm:text-lg font-semibold w-full sm:w-auto"
                 >
                   Đăng nhập
                 </Button>
                 <Button
+                  onClick={() =>
+                    navigate(PATH_NAME.AUTH, { state: { isLoginForm: false } })
+                  }
                   type="primary"
                   className="!py-4 sm:!py-5 px-6 sm:px-8 text-base sm:text-lg font-semibold w-full sm:w-auto"
                 >

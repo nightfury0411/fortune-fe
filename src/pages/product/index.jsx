@@ -8,7 +8,7 @@ const Product = () => {
         <Banner />
       </div>
       <div>
-        <Choice></Choice>
+        <Choice />
       </div>
     </section>
   );

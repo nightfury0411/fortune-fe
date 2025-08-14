@@ -24,7 +24,7 @@ const Cost = () => {
   };
 
   return (
-    <section className="PY-12">
+    <section className="py-12">
       <div className="flex flex-col justify-center items-center text-center max-w-4xl mx-auto px-4 mb-12">
         <h1 className="text-primary font-bold text-xl md:text-2xl lg:text-3xl my-5">
           Gia tăng sự kết nối và gắn bó giữa nhân sự với dịch vụ cá nhân hoá tổ
@@ -32,6 +32,7 @@ const Cost = () => {
         </h1>
 
         <Button
+          onClick={() => navigate(PATH_NAME.SERVICE)}
           type="primary"
           className="text-white uppercase my-5 font-semibold px-8 shadow-md !py-5 rounded-lg transition"
         >

@@ -3,8 +3,11 @@ import FUNC1 from '../../../assets/images/product/func1.png';
 import FUNC2 from '../../../assets/images/product/func2.png';
 import FUNC3 from '../../../assets/images/product/func3.png';
 import FUNC4 from '../../../assets/images/product/func4.png';
+import { PATH_NAME } from '../../../constants';
+import { useNavigate } from 'react-router-dom';
 
 const Choice = () => {
+  const navigate = useNavigate();
   const solutions = [
     {
       title: 'Kho Minigames',
@@ -90,6 +93,7 @@ const Choice = () => {
           </div>
         ))}
         <Button
+          onClick={() => navigate(PATH_NAME.SERVICE)}
           type="primary"
           className="text-white w-36 mb-12 uppercase font-semibold px-10 shadow-md !py-5 rounded-lg transition"
         >
