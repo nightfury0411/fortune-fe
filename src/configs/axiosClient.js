@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const axiosClient = axios.create({
   baseURL: import.meta.env.BASE_URL,
@@ -9,6 +10,10 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
   async (config) => {
+    const accessToken = Cookies.get('accessToken');
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
     return config;
   },
   (err) => {
