@@ -2,20 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-&::-webkit-scrollbar {
-  width: 5px;
-  height: 8px;
-}
-
-&::-webkit-scrollbar-thumb {
-  background-color: #767676;
-  border-radius: 3px;
-}
-
-&::-webkit-scrollbar-thumb:active {
-  background-color: #c7c7c7;
-}
-
 .buy-package-form .ant-input,
 .buy-package-form .ant-input-affix-wrapper,
 .buy-package-form .ant-input-textarea {
