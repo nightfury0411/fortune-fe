@@ -7,6 +7,7 @@ const PATH_NAME = {
   ADMIN: '/admin',
   COST: '/cost',
   SERVICE: '/service',
+  USER_INFO: '/user/info',
 };
 
 const NAV_ELEMENTS = [

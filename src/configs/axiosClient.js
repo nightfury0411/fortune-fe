@@ -2,23 +2,26 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const axiosClient = axios.create({
-  baseURL: import.meta.env.BASE_URL,
+  baseURL: import.meta.env.BASE_URL || 'http://localhost:5152/api',
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
 axiosClient.interceptors.request.use(
-  async (config) => {
+  (config) => {
     const accessToken = Cookies.get('accessToken');
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
+
+    if (config.data instanceof FormData) {
+      config.headers['Content-Type'] = 'multipart/form-data';
+    }
+
     return config;
   },
-  (err) => {
-    return Promise.reject(err);
-  },
+  (err) => Promise.reject(err),
 );
 
 axiosClient.interceptors.response.use(

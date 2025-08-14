@@ -8,17 +8,19 @@ import {
   UserAddOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Button, Form, Input, message } from 'antd';
+import { useMutation } from '@tanstack/react-query';
+import { Button, Form, Input } from 'antd';
 import { useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { Link } from 'react-router-dom';
+import { register } from '../../../services/auth';
+import { notify } from '../../../utils';
 
 function Register({ onSwitchToLogin }) {
   const recaptchaSiteKey = import.meta.env.VITE_APP_RECAPTCHA_SITE_KEY || '';
   const [form] = Form.useForm();
   const [showPassword, setShowPassword] = useState(false);
   const [captchaVerified, setCaptchaVerified] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const onCaptchaChange = (value) => {
     if (value) {
@@ -30,20 +32,30 @@ function Register({ onSwitchToLogin }) {
 
   const togglePassword = () => setShowPassword((prev) => !prev);
 
+  const { mutate: mutateRegister, isPending: isLoadingRegis } = useMutation({
+    mutationFn: register,
+    onSuccess: () => {
+      notify('success', {
+        description: 'Đăng ký thành công. Vui lòng đăng nhập để vào hệ thống',
+      });
+      onSwitchToLogin();
+    },
+    onError: (err) => {
+      notify('error', {
+        description: err?.response?.data?.message || 'Lỗi hệ thống',
+      });
+    },
+  });
+
   const handleSubmit = async (values) => {
-    setLoading(true);
-
     if (!captchaVerified) {
-      message.error('Vui lòng xác nhận reCAPTCHA');
-      setLoading(false);
-
+      notify('warning', {
+        description: 'Vui lòng xác nhận CAPTCHA',
+      });
       return;
     }
-    setTimeout(() => {
-      console.log('Register data:', values);
-      setLoading(false);
-      onSwitchToLogin();
-    }, 1500);
+
+    mutateRegister(values);
   };
 
   return (
@@ -185,7 +197,7 @@ function Register({ onSwitchToLogin }) {
         <Button
           type="primary"
           htmlType="submit"
-          loading={loading}
+          loading={isLoadingRegis}
           className="w-full flex justify-center items-center !h-12 !text-lg !font-semibold !border-0 !rounded-lg"
           size="large"
         >

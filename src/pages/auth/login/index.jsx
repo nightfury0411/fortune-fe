@@ -7,9 +7,13 @@ import {
 } from '@ant-design/icons';
 import { useMutation } from '@tanstack/react-query';
 import { Button, Checkbox, Form, Input, message } from 'antd';
+import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { PATH_NAME } from '../../../constants';
 import { login } from '../../../services/auth';
+import { notify } from '../../../utils';
 
 function Login({ onSwitchToLogin }) {
   const [form] = Form.useForm();
@@ -18,13 +22,34 @@ function Login({ onSwitchToLogin }) {
 
   const togglePassword = () => setShowPassword((prev) => !prev);
 
-  const { mutate: loginMutate, isPending } = useMutation({
+  const { mutate: loginMutate, isPending: isLoadingLogin } = useMutation({
     mutationFn: login,
-    onSuccess: () => {
-      navigate('/');
+    onSuccess: (res) => {
+      notify('success', { description: 'Đăng nhập thành công' });
+
+      const accessToken = res?.data?.accessToken;
+      const refreshToken = res?.data?.refreshToken;
+
+      if (accessToken && refreshToken) {
+        Cookies.set('accessToken', accessToken);
+        Cookies.set('refreshToken', refreshToken);
+        const decoded = jwtDecode(accessToken);
+        const role = decoded['role'];
+        if (role === 'ADMIN') {
+          navigate(PATH_NAME.USER_INFO);
+        } else {
+          navigate(PATH_NAME.HOME);
+        }
+      }
     },
     onError: (err) => {
-      console.error('err', err);
+      if (err && err.status === 401) {
+        notify('error', { description: 'Thông tin đăng nhập không hợp lệ' });
+        return;
+      }
+      notify('error', {
+        description: err?.response?.data?.message || 'Lỗi hệ thống',
+      });
     },
   });
 
@@ -72,7 +97,7 @@ function Login({ onSwitchToLogin }) {
         requiredMark={false}
       >
         <Form.Item
-          name="username"
+          name="userName"
           rules={[
             {
               required: true,
@@ -123,7 +148,7 @@ function Login({ onSwitchToLogin }) {
         <Button
           type="primary"
           htmlType="submit"
-          loading={isPending}
+          loading={isLoadingLogin}
           className="w-full !h-12 !text-base !font-semibold !border-0 !rounded-lg"
           size="large"
         >
