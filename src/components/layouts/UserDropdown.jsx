@@ -1,4 +1,3 @@
-import { PieChartOutlined } from '@ant-design/icons';
 import { CircleUser, LogIn, LogOut, User, UserPlus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { PATH_NAME } from '../../constants';
@@ -37,12 +36,12 @@ const UserDropdown = () => {
           <>
             {userInfo.role === 3 ? (
               <>
-                <Link
+                {/* <Link
                   to="/statistics"
                   className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100"
                 >
                   <PieChartOutlined /> Thống kê
-                </Link>
+                </Link> */}
                 <button
                   onClick={handleLogout}
                   className="flex items-center gap-2 w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
@@ -53,7 +52,7 @@ const UserDropdown = () => {
             ) : (
               <>
                 <Link
-                  to="/user/info"
+                  to={PATH_NAME.USER_INFO}
                   className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100"
                 >
                   <User size={16} /> Quản lý tài khoản

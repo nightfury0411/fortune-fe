@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getMiniGame, getMiniGameDownload } from '../../../services/minigames';
-import { useState } from 'react';
 import { Button } from 'antd';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { getMiniGame, getMiniGameDownload } from '../../../services/minigames';
 
 const MinigameManagement = () => {
   const [downloadingGameId, setDownloadingGameId] = useState(null);

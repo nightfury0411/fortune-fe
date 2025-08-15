@@ -11,6 +11,7 @@ const PATH_NAME = {
   PAYMENT_SUCCESS: '/payment/success',
   PAYMENT_CANCEL: '/payment/cancel',
   USER_INFO: '/user/info',
+  MANAGE_ORDER: '/admin/manage-order',
 };
 
 const NAV_ELEMENTS = [

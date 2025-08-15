@@ -5,7 +5,7 @@ import { useUserData } from '../hooks/useUserData';
 const MemberRoutes = () => {
   const { isLoading, userInfo } = useUserData();
 
-  const isUser = userInfo && userInfo.role === '1';
+  const isUser = userInfo && userInfo.role === 1;
 
   if (isLoading) {
     return (
@@ -15,7 +15,7 @@ const MemberRoutes = () => {
     );
   }
 
-  return !isUser ? <Outlet /> : <Navigate to="/auth" replace />;
+  return isUser ? <Outlet /> : <Navigate to="/" replace />;
 };
 
 export default MemberRoutes;

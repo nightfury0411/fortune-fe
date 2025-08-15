@@ -6,7 +6,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { useMutation } from '@tanstack/react-query';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 import { useState } from 'react';
@@ -37,10 +37,10 @@ function Login({ onSwitchToLogin }) {
           decoded[
             'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
           ];
-        if (role === '1') {
+        if (role === 1) {
           navigate(PATH_NAME.USER_INFO);
         } else {
-          navigate(PATH_NAME.HOME);
+          navigate(PATH_NAME.MANAGE_ORDER);
         }
       }
     },
@@ -128,16 +128,12 @@ function Login({ onSwitchToLogin }) {
             }
           />
         </Form.Item>
-        <div className="flex items-center justify-between mb-6">
-          <Form.Item name="rememberMe" valuePropName="checked" noStyle>
-            <Checkbox className="text-gray-600">Ghi nhớ đăng nhập</Checkbox>
-          </Form.Item>
-        </div>
+
         <Button
           type="primary"
           htmlType="submit"
           loading={isLoadingLogin}
-          className="w-full !h-12 !text-base !font-semibold !border-0 !rounded-lg"
+          className="w-full !h-12 mt-6 !text-base !font-semibold !border-0 !rounded-lg"
           size="large"
         >
           Đăng nhập

@@ -4,20 +4,23 @@ import { createBrowserRouter, Outlet } from 'react-router-dom';
 import LandingLayout from '../components/layouts/LandingLayout';
 import ScrollToTop from '../components/ScrollToTop';
 import { PATH_NAME } from '../constants';
+import AdminPage from '../pages/admin';
 import AuthPage from '../pages/auth';
 import NotFound from '../pages/notfound';
 import MemberPage from '../pages/user';
 import AdminRoutes from './AdminRoutes';
+import AdminRedirectGuard from './guards';
 import GuestRoute from './GuestRoute';
 import MemberRoutes from './MemberRoutes';
 
 const LandingPage = lazy(() => import('../pages/landing'));
-const AdminHome = lazy(() => import('../pages/admin'));
 const ServicePage = lazy(() => import('../pages/service'));
 const CostPage = lazy(() => import('../pages/cost'));
 const ProductPage = lazy(() => import('../pages/product'));
 const PaymentCancelPage = lazy(() => import('../pages/payment/cancel'));
 const PaymentSuccessPage = lazy(() => import('../pages/payment/success'));
+const ManageOrderPage = lazy(() => import('../pages/admin/manage-order'));
+const ManageUserPage = lazy(() => import('../pages/admin/manage-user'));
 
 const PackageManagerPage = lazy(
   () => import('../pages/user/package-management'),
@@ -46,10 +49,12 @@ const withSuspense = (Component) => (
 const router = createBrowserRouter([
   {
     element: (
-      <LandingLayout>
-        <ScrollToTop />
-        <Outlet />
-      </LandingLayout>
+      <AdminRedirectGuard>
+        <LandingLayout>
+          <ScrollToTop />
+          <Outlet />
+        </LandingLayout>
+      </AdminRedirectGuard>
     ),
     children: [
       {
@@ -112,13 +117,19 @@ const router = createBrowserRouter([
       },
     ],
   },
-
   {
     element: <AdminRoutes />,
     children: [
       {
         path: PATH_NAME.ADMIN,
-        element: withSuspense(AdminHome),
+        element: withSuspense(AdminPage),
+        children: [
+          { path: 'manage-order', element: withSuspense(ManageOrderPage) },
+          {
+            path: 'manage-user',
+            element: withSuspense(ManageUserPage),
+          },
+        ],
       },
     ],
   },

@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LOGO_WEB from '../../assets/images/logo_web.webp';
 import { useLogout } from '../../hooks/useLogout';
-import NavElements from './NavElements';
 import UserDropdown from './UserDropdown';
+import { PATH_NAME } from '../../constants';
 
-const Navbar = () => {
+const NavbarAdmin = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const logout = useLogout();
 
@@ -22,7 +22,10 @@ const Navbar = () => {
       <div className="container mx-auto max-w-[1600px]">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <div className="flex items-center">
-            <Link to="/" className="group flex items-center space-x-2">
+            <Link
+              to={PATH_NAME.MANAGE_ORDER}
+              className="group flex items-center space-x-2"
+            >
               <div>
                 <img src={LOGO_WEB} alt="logo" className="h-10 w-auto" />
               </div>
@@ -30,9 +33,7 @@ const Navbar = () => {
           </div>
 
           <div className="hidden lg:flex items-center space-x-8">
-            <nav className="flex items-center space-x-8">
-              <NavElements />
-            </nav>
+            <p className="text-2xl font-bold text-primary">ADMIN MANAGEMENT</p>
             <div className="flex items-center space-x-3">
               <UserDropdown onLogout={handleLogout} />
             </div>
@@ -71,22 +72,9 @@ const Navbar = () => {
             </button>
           </div>
         </div>
-
-        <div
-          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isMobileMenuOpen ? 'max-h-64 pb-4' : 'max-h-0'
-          }`}
-        >
-          <nav className="flex flex-col space-y-2 pt-4 border-t border-gray-200">
-            <NavElements
-              mobile
-              onItemClick={() => setIsMobileMenuOpen(false)}
-            />
-          </nav>
-        </div>
       </div>
     </header>
   );
 };
 
-export default Navbar;
+export default NavbarAdmin;
