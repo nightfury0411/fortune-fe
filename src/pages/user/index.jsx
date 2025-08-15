@@ -6,7 +6,7 @@ const tabs = [
   { label: 'Các gói dịch vụ đã mua', path: 'packages' },
   { label: 'Bản kế hoạch', path: 'plan' },
   { label: 'Minigames', path: 'minigames' },
-  { label: 'Cộng đồng', path: 'community' },
+  // { label: 'Cộng đồng', path: 'community' },
 ];
 
 const MemberPage = () => {

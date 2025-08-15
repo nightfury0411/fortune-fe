@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { getPlan, getPlanDownload } from '../../../services/plan';
 import { Button } from 'antd';
 import { useState } from 'react';
+import { Helmet } from 'react-helmet';
 
 const PlanManagement = () => {
   const [downloadingPlanId, setDownloadingPlanId] = useState(null);
@@ -64,40 +65,45 @@ const PlanManagement = () => {
   }
 
   return (
-    <div className="min-h-screen px-4 sm:px-8 lg:px-20 py-14 flex justify-center">
-      <div className="w-full max-w-7xl">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-14">
-          {plan.data.map((planItem) => (
-            <div
-              key={planItem.plan_id}
-              className="bg-white font-bold rounded-lg p-6 lg:p-8 flex flex-col items-center justify-between text-center text-blue-900 text-lg shadow-md min-h-[300px] lg:min-h-[370px] transition-shadow hover:shadow-lg"
-            >
-              <div className="flex-1 flex flex-col justify-center">
-                <h3 className="mb-4 text-base lg:text-lg font-bold">
-                  {planItem.plan_name}
-                </h3>
-                <p className="text-sm font-normal text-gray-600 mb-4 line-clamp-3">
-                  {planItem.plan_des}
-                </p>
-              </div>
+    <>
+      <Helmet>
+        <title>Fortune | Bản kế hoạch</title>
+      </Helmet>
+      <div className="min-h-screen px-4 sm:px-8 lg:px-20 py-14 flex justify-center">
+        <div className="w-full max-w-7xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-14">
+            {plan.data.map((planItem) => (
+              <div
+                key={planItem.plan_id}
+                className="bg-white font-bold rounded-lg p-6 lg:p-8 flex flex-col items-center justify-between text-center text-blue-900 text-lg shadow-md min-h-[300px] lg:min-h-[370px] transition-shadow hover:shadow-lg"
+              >
+                <div className="flex-1 flex flex-col justify-center">
+                  <h3 className="mb-4 text-base lg:text-lg font-bold">
+                    {planItem.plan_name}
+                  </h3>
+                  <p className="text-sm font-normal text-gray-600 mb-4 line-clamp-3">
+                    {planItem.plan_des}
+                  </p>
+                </div>
 
-              <div className="w-full">
-                {planItem.fileUrl && (
-                  <Button
-                    type="primary"
-                    onClick={() => downloadMutate(planItem.plan_id)}
-                    className="w-full mt-4 px-4 py-2 text-white font-medium disabled:opacity-50 hover:bg-blue-50 rounded transition-colors"
-                    loading={downloadingPlanId === planItem.plan_id}
-                  >
-                    Tải file
-                  </Button>
-                )}
+                <div className="w-full">
+                  {planItem.fileUrl && (
+                    <Button
+                      type="primary"
+                      onClick={() => downloadMutate(planItem.plan_id)}
+                      className="w-full mt-4 px-4 py-2 text-white font-medium disabled:opacity-50 hover:bg-blue-50 rounded transition-colors"
+                      loading={downloadingPlanId === planItem.plan_id}
+                    >
+                      Tải file
+                    </Button>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

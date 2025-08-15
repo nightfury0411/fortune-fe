@@ -5,6 +5,7 @@ import PackageCard from '../../components/packages/card';
 import { getPackage } from '../../services/package';
 import { payment } from '../../services/payment';
 import { formatCurrency, notify } from '../../utils';
+import { Helmet } from 'react-helmet';
 
 const { TextArea } = Input;
 
@@ -77,6 +78,9 @@ const Service = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Fortune | Tư vấn dịch vụ</title>
+      </Helmet>
       <section className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="border border-primary rounded-xl overflow-hidden shadow-lg bg-white max-w-5xl w-full">
           <div className="bg-primary text-white py-3 text-center font-bold text-lg">

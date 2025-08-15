@@ -5,6 +5,7 @@ import PackageCard from '../../components/packages/card';
 import { PATH_NAME } from '../../constants';
 import { getPackage } from '../../services/package';
 import { formatCurrency } from '../../utils';
+import { Helmet } from 'react-helmet';
 
 const Cost = () => {
   const navigate = useNavigate();
@@ -36,30 +37,35 @@ const Cost = () => {
   };
 
   return (
-    <section className="py-12">
-      <div className="flex flex-col justify-center items-center text-center max-w-4xl mx-auto px-4 mb-12">
-        <h1 className="text-primary font-bold text-xl md:text-2xl lg:text-3xl my-5">
-          Gia tăng sự kết nối và gắn bó giữa nhân sự với dịch vụ cá nhân hoá tổ
-          chức sự kiện giải trí của Wheels of Fortune
-        </h1>
+    <>
+      <Helmet>
+        <title>Fortune | Bảng giá</title>
+      </Helmet>
+      <section className="py-12">
+        <div className="flex flex-col justify-center items-center text-center max-w-4xl mx-auto px-4 mb-12">
+          <h1 className="text-primary font-bold text-xl md:text-2xl lg:text-3xl my-5">
+            Gia tăng sự kết nối và gắn bó giữa nhân sự với dịch vụ cá nhân hoá
+            tổ chức sự kiện giải trí của Wheels of Fortune
+          </h1>
 
-        <Button
-          onClick={() => navigate(PATH_NAME.SERVICE)}
-          type="primary"
-          className="text-white uppercase my-5 font-semibold px-8 shadow-md !py-5 rounded-lg transition"
-        >
-          Đăng ký ngay
-        </Button>
-      </div>
-      <div className="flex justify-center">
-        <PackageCard
-          pkg={packages}
-          isBuy={true}
-          handleBuyPackage={handleBuyPackage}
-          loading={isPending}
-        />
-      </div>
-    </section>
+          <Button
+            onClick={() => navigate(PATH_NAME.SERVICE)}
+            type="primary"
+            className="text-white uppercase my-5 font-semibold px-8 shadow-md !py-5 rounded-lg transition"
+          >
+            Đăng ký ngay
+          </Button>
+        </div>
+        <div className="flex justify-center">
+          <PackageCard
+            pkg={packages}
+            isBuy={true}
+            handleBuyPackage={handleBuyPackage}
+            loading={isPending}
+          />
+        </div>
+      </section>
+    </>
   );
 };
 

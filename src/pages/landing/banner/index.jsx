@@ -1,10 +1,12 @@
 import { Button } from 'antd';
-import HERO_IMAGE from '../../../assets/images/home/hero.png';
 import { useNavigate } from 'react-router-dom';
+import HERO_IMAGE from '../../../assets/images/home/hero.png';
 import { PATH_NAME } from '../../../constants';
+import { useUserData } from '../../../hooks/useUserData';
 
 const Banner = () => {
   const navigate = useNavigate();
+  const { userInfo } = useUserData();
 
   return (
     <section>
@@ -18,7 +20,6 @@ const Banner = () => {
               Wheels of Fortune (được phát triển bởi FORTUNE) cung cấp dịch vụ
               về tổ chức sự kiện mang tính cá nhân hoá cho doanh nghiệp của bạn
             </h2>
-
             <div className="my-10 sm:my-16 lg:my-20 font-semibold w-full sm:w-44">
               <Button
                 onClick={() => navigate(PATH_NAME.SERVICE)}
@@ -31,32 +32,35 @@ const Banner = () => {
                 Tư vấn dịch vụ phù hợp với mọi nhu cầu
               </p>
             </div>
-
-            <div>
-              <p className="text-base sm:text-lg font-semibold">
-                Bạn đã mua dịch vụ?
-              </p>
-              <div className="flex flex-col sm:flex-row gap-2 mt-4 sm:mt-6">
-                <Button
-                  onClick={() =>
-                    navigate(PATH_NAME.AUTH, { state: { isLoginForm: true } })
-                  }
-                  type="primary"
-                  className="!py-4 sm:!py-5 px-6 sm:px-8 text-base sm:text-lg font-semibold w-full sm:w-auto"
-                >
-                  Đăng nhập
-                </Button>
-                <Button
-                  onClick={() =>
-                    navigate(PATH_NAME.AUTH, { state: { isLoginForm: false } })
-                  }
-                  type="primary"
-                  className="!py-4 sm:!py-5 px-6 sm:px-8 text-base sm:text-lg font-semibold w-full sm:w-auto"
-                >
-                  Đăng ký
-                </Button>
+            {!userInfo && (
+              <div>
+                <p className="text-base sm:text-lg font-semibold">
+                  Bạn đã mua dịch vụ?
+                </p>
+                <div className="flex flex-col sm:flex-row gap-2 mt-4 sm:mt-6">
+                  <Button
+                    onClick={() =>
+                      navigate(PATH_NAME.AUTH, { state: { isLoginForm: true } })
+                    }
+                    type="primary"
+                    className="!py-4 sm:!py-5 px-6 sm:px-8 text-base sm:text-lg font-semibold w-full sm:w-auto"
+                  >
+                    Đăng nhập
+                  </Button>
+                  <Button
+                    onClick={() =>
+                      navigate(PATH_NAME.AUTH, {
+                        state: { isLoginForm: false },
+                      })
+                    }
+                    type="primary"
+                    className="!py-4 sm:!py-5 px-6 sm:px-8 text-base sm:text-lg font-semibold w-full sm:w-auto"
+                  >
+                    Đăng ký
+                  </Button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
 

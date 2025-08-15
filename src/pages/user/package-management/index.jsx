@@ -1,12 +1,13 @@
 import React from 'react';
 import PackageCard from '../../../components/packages/card';
+import { Helmet } from 'react-helmet';
 
 const PackageManagement = () => {
   const packages = {
     title: 'CUSTOMIZABLE',
     description:
       'Gói cá nhân hoá và không giới hạn, được cấp quyền vào hệ thống chỉnh sửa, gia tăng các tính năng theo nhu cầu.',
-    price: '1.500.000 VNĐ/tháng',
+    price: '1.500.000',
     features: [
       '8 sự kiện / tháng',
       'Bản kế hoạch tuỳ chỉnh theo yêu cầu',
@@ -17,16 +18,21 @@ const PackageManagement = () => {
   };
 
   return (
-    <section className="my-5 ml-20">
-      <div>
-        <PackageCard
-          className="border-2 border-primary"
-          pkg={packages}
-          isBuy={false}
-          handleBuyPackage={() => {}}
-        />
-      </div>
-    </section>
+    <>
+      <Helmet>
+        <title>Fortune | Gói dịch vụ đã mua</title>
+      </Helmet>
+      <section className="my-5 ml-20">
+        <div>
+          <PackageCard
+            className="border-2 border-primary"
+            pkg={packages}
+            isBuy={false}
+            handleBuyPackage={() => {}}
+          />
+        </div>
+      </section>
+    </>
   );
 };
 
