@@ -1,3 +1,4 @@
+import { PieChartOutlined } from '@ant-design/icons';
 import { CircleUser, LogIn, LogOut, User, UserPlus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { PATH_NAME } from '../../constants';
@@ -34,18 +35,37 @@ const UserDropdown = () => {
       >
         {userInfo ? (
           <>
-            <Link
-              to="/user/info"
-              className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100"
-            >
-              <User size={16} /> Quản lý tài khoản
-            </Link>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
-            >
-              <LogOut size={16} /> Đăng xuất
-            </button>
+            {userInfo.role === 3 ? (
+              <>
+                <Link
+                  to="/statistics"
+                  className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  <PieChartOutlined /> Thống kê
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  <LogOut size={16} /> Đăng xuất
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/user/info"
+                  className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  <User size={16} /> Quản lý tài khoản
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  <LogOut size={16} /> Đăng xuất
+                </button>
+              </>
+            )}
           </>
         ) : (
           <>
