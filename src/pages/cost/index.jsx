@@ -1,15 +1,27 @@
+import { useQuery } from '@tanstack/react-query';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import PackageCard from '../../components/packages/card';
 import { PATH_NAME } from '../../constants';
+import { getPackage } from '../../services/package';
+import { formatCurrency } from '../../utils';
 
 const Cost = () => {
   const navigate = useNavigate();
+  const { data: packageRes, isPending } = useQuery({
+    queryKey: ['packages'],
+    queryFn: getPackage,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    retry: 1,
+  });
+
+  const packageData = packageRes?.data?.[0] ?? null;
+
   const packages = {
     title: 'CUSTOMIZABLE',
-    description:
-      'Gói cá nhân hoá và không giới hạn, được cấp quyền vào hệ thống chỉnh sửa, gia tăng các tính năng theo nhu cầu.',
-    price: '1.500.000 VNĐ/tháng',
+    description: packageData?.description ?? '',
+    price: packageData?.price ? `${formatCurrency(packageData.price)}` : '',
     features: [
       '8 sự kiện / tháng',
       'Bản kế hoạch tuỳ chỉnh theo yêu cầu',
@@ -44,6 +56,7 @@ const Cost = () => {
           pkg={packages}
           isBuy={true}
           handleBuyPackage={handleBuyPackage}
+          loading={isPending}
         />
       </div>
     </section>

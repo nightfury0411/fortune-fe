@@ -16,7 +16,8 @@ const AdminHome = lazy(() => import('../pages/admin'));
 const ServicePage = lazy(() => import('../pages/service'));
 const CostPage = lazy(() => import('../pages/cost'));
 const ProductPage = lazy(() => import('../pages/product'));
-const PaymentPage = lazy(() => import('../pages/payment'));
+const PaymentCancelPage = lazy(() => import('../pages/payment/cancel'));
+const PaymentSuccessPage = lazy(() => import('../pages/payment/success'));
 
 const PackageManagerPage = lazy(
   () => import('../pages/user/package-management'),
@@ -68,8 +69,12 @@ const router = createBrowserRouter([
         element: withSuspense(CostPage),
       },
       {
-        path: PATH_NAME.PAYMENT,
-        element: withSuspense(PaymentPage),
+        path: PATH_NAME.PAYMENT_CANCEL,
+        element: withSuspense(PaymentCancelPage),
+      },
+      {
+        path: PATH_NAME.PAYMENT_SUCCESS,
+        element: withSuspense(PaymentSuccessPage),
       },
       {
         element: <MemberRoutes />,

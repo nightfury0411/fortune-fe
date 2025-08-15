@@ -42,6 +42,7 @@ const InfoManagement = () => {
       });
     },
   });
+
   return (
     <div className="space-y-6 h-full p-6 mr-6 rounded-b-xl bg-white shadow ">
       <div className="border-b border-gray-200 pb-4">

@@ -7,7 +7,9 @@ const PATH_NAME = {
   ADMIN: '/admin',
   COST: '/cost',
   SERVICE: '/service',
-  PAYMENT: '/payment/success',
+  PAYMENT: '/payment',
+  PAYMENT_SUCCESS: '/payment/success',
+  PAYMENT_CANCEL: '/payment/cancel',
   USER_INFO: '/user/info',
 };
 
