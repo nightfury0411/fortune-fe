@@ -2,20 +2,21 @@ import { Spin } from 'antd';
 import { lazy, Suspense } from 'react';
 import { createBrowserRouter, Outlet } from 'react-router-dom';
 import LandingLayout from '../components/layouts/LandingLayout';
+import ScrollToTop from '../components/ScrollToTop';
 import { PATH_NAME } from '../constants';
 import AuthPage from '../pages/auth';
 import NotFound from '../pages/notfound';
+import MemberPage from '../pages/user';
 import AdminRoutes from './AdminRoutes';
 import GuestRoute from './GuestRoute';
-import ScrollToTop from '../components/ScrollToTop';
 import MemberRoutes from './MemberRoutes';
-import MemberPage from '../pages/user';
 
 const LandingPage = lazy(() => import('../pages/landing'));
 const AdminHome = lazy(() => import('../pages/admin'));
 const ServicePage = lazy(() => import('../pages/service'));
 const CostPage = lazy(() => import('../pages/cost'));
 const ProductPage = lazy(() => import('../pages/product'));
+const PaymentPage = lazy(() => import('../pages/payment'));
 
 const PackageManagerPage = lazy(
   () => import('../pages/user/package-management'),
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: PATH_NAME.COST,
         element: withSuspense(CostPage),
+      },
+      {
+        path: PATH_NAME.PAYMENT,
+        element: withSuspense(PaymentPage),
       },
       {
         element: <MemberRoutes />,

@@ -2,15 +2,14 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LOGO_WEB from '../../assets/images/logo_web.webp';
 import { useLogout } from '../../hooks/useLogout';
-import NotificationBell from '../NotificationBell';
+import { useUserData } from '../../hooks/useUserData';
 import NavElements from './NavElements';
 import UserDropdown from './UserDropdown';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [user, setUser] = useState(null);
-  const [notificationCount] = useState(3);
   const logout = useLogout();
+  const { userInfo } = useUserData();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -18,7 +17,6 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    setUser(null);
   };
 
   return (
@@ -37,18 +35,13 @@ const Navbar = () => {
             <nav className="flex items-center space-x-8">
               <NavElements />
             </nav>
-
             <div className="flex items-center space-x-3">
-              {user && <NotificationBell count={notificationCount} />}
-              {user && <div className="h-8 w-px bg-gray-300" />}
-              <UserDropdown user={user} onLogout={handleLogout} />
+              <UserDropdown onLogout={handleLogout} />
             </div>
           </div>
 
           <div className="flex items-center space-x-2 lg:hidden">
-            {user && <NotificationBell count={notificationCount} />}
-            <UserDropdown user={user} onLogout={handleLogout} />
-
+            <UserDropdown onLogout={handleLogout} />
             <button
               onClick={toggleMobileMenu}
               className="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"

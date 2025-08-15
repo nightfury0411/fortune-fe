@@ -4,4 +4,8 @@ const getUser = () => {
   return axiosClient.get(`/User/User`);
 };
 
-export { getUser };
+const updateUser = (payload) => {
+  return axiosClient.post(`/User/update-user`, payload);
+};
+
+export { getUser, updateUser };

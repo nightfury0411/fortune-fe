@@ -1,4 +1,5 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useUserData } from '../../hooks/useUserData';
 
 const tabs = [
   { label: 'Chỉnh sửa thông tin cá nhân', path: 'info' },
@@ -11,6 +12,7 @@ const tabs = [
 const MemberPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { userInfo } = useUserData();
 
   const currentTab = location.pathname.split('/').pop();
 
@@ -30,7 +32,10 @@ const MemberPage = () => {
         </div>
 
         <p className="text-center text-base text-gray-700">
-          Người dùng: [Tên người dùng]
+          Người dùng:{' '}
+          <span className="font-semibold text-primary">
+            {userInfo?.fullName || 'Chưa cập nhật'}
+          </span>
         </p>
 
         <nav className="flex flex-col text-base-color font-medium justify-center items-center mt-4 gap-1">

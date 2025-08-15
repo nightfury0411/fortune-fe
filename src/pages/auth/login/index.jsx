@@ -25,10 +25,6 @@ function Login({ onSwitchToLogin }) {
   const { mutate: loginMutate, isPending: isLoadingLogin } = useMutation({
     mutationFn: login,
     onSuccess: (res) => {
-      localStorage.setItem(
-        'user',
-        JSON.stringify({ username: 'guest', isGuest: true }),
-      );
       notify('success', { description: 'Đăng nhập thành công' });
 
       const accessToken = res?.data;
@@ -41,7 +37,7 @@ function Login({ onSwitchToLogin }) {
           decoded[
             'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
           ];
-        if (role === '0') {
+        if (role === '1') {
           navigate(PATH_NAME.USER_INFO);
         } else {
           navigate(PATH_NAME.HOME);

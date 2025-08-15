@@ -4,15 +4,44 @@ import {
   PhoneOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+import { useMutation } from '@tanstack/react-query';
 import { Button, Form, Input } from 'antd';
+import { useEffect } from 'react';
+import { useUserData } from '../../../hooks/useUserData';
+import { updateUser } from '../../../services/user';
+import { notify } from '../../../utils';
 
 const InfoManagement = () => {
   const [form] = Form.useForm();
+  const { refetch, userInfo } = useUserData();
+
+  useEffect(() => {
+    if (userInfo) {
+      form.setFieldsValue({
+        userName: userInfo.userName || '',
+        email: userInfo.email || '',
+        fullName: userInfo.fullName || '',
+        phone: userInfo.phone || '',
+      });
+    }
+  }, [userInfo, form]);
 
   const onFinish = (values) => {
-    console.log('values', values);
+    updateUserMutate(values);
   };
 
+  const { mutate: updateUserMutate, isPending: isLoadingUpdate } = useMutation({
+    mutationFn: updateUser,
+    onSuccess: () => {
+      notify('success', { description: 'Cập nhật thông tin thành công' });
+      refetch();
+    },
+    onError: (err) => {
+      notify('error', {
+        description: err?.response?.data?.message || 'Lỗi hệ thống',
+      });
+    },
+  });
   return (
     <div className="space-y-6 h-full p-6 mr-6 rounded-b-xl bg-white shadow ">
       <div className="border-b border-gray-200 pb-4">
@@ -78,7 +107,7 @@ const InfoManagement = () => {
 
             <Form.Item
               label="Họ và tên"
-              name="fullname"
+              name="fullName"
               rules={[
                 { required: true, message: 'Vui lòng nhập họ và tên' },
                 { min: 3, message: 'Họ và tên tối thiểu 3 ký tự' },
@@ -128,6 +157,7 @@ const InfoManagement = () => {
             htmlType="submit"
             size="large"
             className="!h-12 !px-8 !text-base !font-semibold !rounded-lg  !border-0 !shadow-md hover:!shadow-lg transition-all duration-200"
+            loading={isLoadingUpdate}
           >
             Cập nhật thông tin
           </Button>

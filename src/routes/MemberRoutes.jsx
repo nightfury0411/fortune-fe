@@ -1,9 +1,21 @@
+import { Spin } from 'antd';
 import { Navigate, Outlet } from 'react-router-dom';
+import { useUserData } from '../hooks/useUserData';
 
 const MemberRoutes = () => {
-  const isMember = true;
+  const { isLoading, userInfo } = useUserData();
 
-  return isMember ? <Outlet /> : <Navigate to="/auth" replace />;
+  const isUser = userInfo && userInfo.role === '1';
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Spin size="large" />
+      </div>
+    );
+  }
+
+  return !isUser ? <Outlet /> : <Navigate to="/auth" replace />;
 };
 
 export default MemberRoutes;

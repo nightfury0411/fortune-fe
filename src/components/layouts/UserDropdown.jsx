@@ -1,23 +1,17 @@
-import { message } from 'antd';
 import { CircleUser, LogIn, LogOut, User, UserPlus } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { PATH_NAME } from '../../constants';
+import { useLogout } from '../../hooks/useLogout';
+import { useUserData } from '../../hooks/useUserData';
+import { notify } from '../../utils';
 
 const UserDropdown = () => {
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-    if (storedUser) setUser(storedUser);
-  }, []);
+  const logout = useLogout();
+  const { userInfo } = useUserData();
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
-    setUser(null);
-    navigate(PATH_NAME.AUTH);
-    message.success('Đăng xuất thành công');
+    logout();
+    notify('success', { description: 'Đăng xuất thành công' });
   };
 
   return (
@@ -38,7 +32,7 @@ const UserDropdown = () => {
           z-50
         "
       >
-        {user ? (
+        {userInfo ? (
           <>
             <Link
               to="/user/info"
