@@ -1,11 +1,11 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Button, Form, Input } from 'antd';
 import { useState } from 'react';
+import { Helmet } from 'react-helmet';
 import PackageCard from '../../components/packages/card';
 import { getPackage } from '../../services/package';
 import { payment } from '../../services/payment';
-import { formatCurrency, notify } from '../../utils';
-import { Helmet } from 'react-helmet';
+import { formatCurrenyPackage, notify } from '../../utils';
 
 const { TextArea } = Input;
 
@@ -16,7 +16,6 @@ const Service = () => {
   const { mutate: paymentMutate } = useMutation({
     mutationFn: payment,
     onSuccess: (res) => {
-      console.log('check res', res);
       const checkoutUrl = res?.data?.checkoutUrl?.replace(/^redirect:/, '');
 
       if (!checkoutUrl) {
@@ -50,13 +49,20 @@ const Service = () => {
     retry: 1,
   });
 
-  const packageData = packageRes?.data?.[0] ?? null;
+  const packageData =
+    packageRes?.data?.find(
+      (pkg) =>
+        pkg?.description?.includes('Gói cá nhân hoá') ||
+        pkg?.description?.includes('không giới hạn'),
+    ) ?? null;
 
   const packages = {
     id: packageData?.package_Id,
-    title: 'CUSTOMIZABLE',
+    title: packageData?.name ?? '',
     description: packageData?.description ?? '',
-    price: packageData?.price ? `${formatCurrency(packageData.price)}` : '',
+    price: packageData?.price
+      ? `${formatCurrenyPackage(packageData.price)}`
+      : '',
     features: [
       '8 sự kiện / tháng',
       'Bản kế hoạch tuỳ chỉnh theo yêu cầu',

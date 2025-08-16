@@ -38,6 +38,11 @@ export const formatCurrency = (amount) => {
   return `${amountInVND.toLocaleString('vi-VN')} VND`;
 };
 
+export const formatCurrenyPackage = (amount) => {
+  const amountInVND = parseInt(amount);
+  return `${amountInVND.toLocaleString('vi-VN')}`;
+};
+
 export const getResponseCodeMessagePayos = (code) => {
   const messages = {
     '00': 'Thành công',

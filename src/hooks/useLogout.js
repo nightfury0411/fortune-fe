@@ -9,6 +9,7 @@ const useLogout = () => {
 
   const logout = () => {
     Cookies.remove('accessToken');
+    localStorage.clear();
     queryClient.clear();
     navigate(PATH_NAME.AUTH);
   };
