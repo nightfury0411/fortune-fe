@@ -12,9 +12,7 @@ const ManageOrder = () => {
     retry: 1,
   });
 
-  const orderListActive =
-    orderResponse &&
-    orderResponse.data?.filter((item) => item?.status === 'Paid');
+  const orderListActive = orderResponse?.data ?? [];
 
   if (isLoadingOrder) {
     return (
