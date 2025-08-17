@@ -1,14 +1,15 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button } from 'antd';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { getAllOrder, updateOrderContact } from '../../../services/order';
 import { notify } from '../../../utils';
-import { useState } from 'react';
 
 const ManageUser = () => {
   const [loadingId, setLoadingId] = useState(null);
+  const queryClient = useQueryClient();
 
-  const { data: orders, refetch } = useQuery({
+  const { data: orders } = useQuery({
     queryKey: ['orders'],
     queryFn: getAllOrder,
     refetchOnMount: false,
@@ -18,11 +19,21 @@ const ManageUser = () => {
 
   const { mutate: updateOrderMutate } = useMutation({
     mutationFn: updateOrderContact,
-    onSuccess: () => {
+    onSuccess: (_, orderId) => {
       notify('success', {
         description: 'Cập nhật trạng thái liên hệ của đơn hàng thành công',
       });
-      refetch();
+
+      queryClient.setQueryData(['orders'], (oldData) => {
+        if (!oldData) return oldData;
+        return {
+          ...oldData,
+          data: oldData.data.map((o) =>
+            o.id === orderId ? { ...o, contact: true } : o,
+          ),
+        };
+      });
+
       setLoadingId(null);
     },
     onError: (err) => {
@@ -35,7 +46,6 @@ const ManageUser = () => {
 
   const handleUpdate = (order) => {
     if (order.contact) return;
-
     setLoadingId(order.id);
     updateOrderMutate(order.id);
   };
