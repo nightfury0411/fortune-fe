@@ -2,14 +2,16 @@ import { useQuery } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet';
 import PackageCard from '../../../components/packages/card';
 import { getUserPurchasePackage } from '../../../services/order';
+import { formatCurrenyPackage } from '../../../utils';
 
 const PackageManagement = () => {
-  const userId = localStorage.getItem('userId');
-
-  const packageQueries = useQuery({
-    queryKey: ['userPurchasePackages', userId],
-    queryFn: () => getUserPurchasePackage(userId),
-    enabled: !!userId,
+  const {
+    data: userPurchasePackageRes,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['userPurchasePackage'],
+    queryFn: getUserPurchasePackage,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     retry: 1,
@@ -29,24 +31,46 @@ const PackageManagement = () => {
     ],
   };
 
-  const purchasedPackage = packageQueries.data?.data?.[0];
+  const purchasedPackage = Array.isArray(userPurchasePackageRes?.data)
+    ? userPurchasePackageRes.data
+    : [];
 
   return (
     <>
       <Helmet>
         <title>Fortune | Gói dịch vụ đã mua</title>
       </Helmet>
+
       <section className="my-5 ml-20">
-        {purchasedPackage ? (
-          <PackageCard
-            className="border-2 border-primary"
-            pkg={{ ...defaultPackage, title: purchasedPackage }}
-            isBuy={false}
-            handleBuyPackage={() => {}}
-          />
-        ) : (
-          <div className="text-gray-500 text-lg">Bạn chưa mua gói nào</div>
+        {isLoading && (
+          <div className="text-gray-500 text-lg">Đang tải dữ liệu...</div>
         )}
+
+        {isError && (
+          <div className="text-red-500 text-lg">
+            Có lỗi xảy ra khi tải dữ liệu
+          </div>
+        )}
+
+        {!isLoading && !isError && purchasedPackage.length > 0
+          ? purchasedPackage.map((pkg) => (
+              <PackageCard
+                key={pkg.package_Id}
+                className="border-2 border-primary"
+                pkg={{
+                  ...defaultPackage,
+                  title: pkg.name,
+                  description: pkg.description,
+                  price: formatCurrenyPackage(pkg.price),
+                }}
+                isBuy={false}
+                handleBuyPackage={() => {}}
+              />
+            ))
+          : !isLoading &&
+            !isError && (
+              <div className="text-gray-500 text-lg">Bạn chưa mua gói nào</div>
+            )}
       </section>
     </>
   );

@@ -10,7 +10,6 @@ import { formatCurrenyPackage } from '../../utils';
 
 const Cost = () => {
   const navigate = useNavigate();
-  const userId = localStorage.getItem('userId');
 
   const { data: packageRes, isPending } = useQuery({
     queryKey: ['packages'],
@@ -42,10 +41,9 @@ const Cost = () => {
     ],
   };
 
-  const packageQueries = useQuery({
-    queryKey: ['userPurchasePackages', userId],
-    queryFn: () => getUserPurchasePackage(userId),
-    enabled: !!userId,
+  const { data: userPurchasePackageRes } = useQuery({
+    queryKey: ['userPurchasePackage'],
+    queryFn: getUserPurchasePackage,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     retry: 1,
@@ -55,7 +53,11 @@ const Cost = () => {
     navigate(PATH_NAME.SERVICE);
   };
 
-  const hasPackage = packageQueries?.data?.data?.length > 0;
+  const purchasedPackage = Array.isArray(userPurchasePackageRes?.data)
+    ? userPurchasePackageRes.data
+    : [];
+
+  const hasPackage = purchasedPackage.length > 0;
 
   return (
     <>

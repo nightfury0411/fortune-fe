@@ -4,8 +4,12 @@ const getAllOrder = () => {
   return axiosClient.get(`/Order/GetAllOrder`);
 };
 
-const getUserPurchasePackage = (userId) => {
-  return axiosClient.get(`/Order/GetUserPurchasePackage/${userId}`);
+const getUserPurchasePackage = () => {
+  return axiosClient.get(`/Order/GetUserPurchasePackage`);
 };
 
-export { getAllOrder, getUserPurchasePackage };
+const updateOrderContact = (id) => {
+  return axiosClient.put(`/Order/updateOrderContact/${id}`);
+};
+
+export { getAllOrder, getUserPurchasePackage, updateOrderContact };

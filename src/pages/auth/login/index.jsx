@@ -31,7 +31,7 @@ function Login({ onSwitchToLogin }) {
       const refreshToken = res?.data;
 
       if (accessToken && refreshToken) {
-        Cookies.set('accessToken', accessToken);
+        Cookies.set('accessToken', accessToken, { expires: 0.25 });
         const decoded = jwtDecode(accessToken);
         const role =
           decoded[
