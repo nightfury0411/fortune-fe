@@ -10,6 +10,7 @@ import { formatCurrenyPackage } from '../../utils';
 
 const Cost = () => {
   const navigate = useNavigate();
+  const userId = localStorage.getItem('userId');
 
   const { data: packageRes, isPending } = useQuery({
     queryKey: ['packages'],
@@ -42,8 +43,9 @@ const Cost = () => {
   };
 
   const { data: userPurchasePackageRes } = useQuery({
-    queryKey: ['userPurchasePackage'],
-    queryFn: getUserPurchasePackage,
+    queryKey: ['userPurchasePackage', userId],
+    queryFn: () => getUserPurchasePackage(userId),
+    enabled: !!userId,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     retry: 1,

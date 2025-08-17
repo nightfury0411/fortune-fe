@@ -5,13 +5,16 @@ import { getUserPurchasePackage } from '../../../services/order';
 import { formatCurrenyPackage } from '../../../utils';
 
 const PackageManagement = () => {
+  const userId = localStorage.getItem('userId');
+
   const {
     data: userPurchasePackageRes,
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['userPurchasePackage'],
-    queryFn: getUserPurchasePackage,
+    queryKey: ['userPurchasePackage', userId],
+    queryFn: () => getUserPurchasePackage(userId),
+    enabled: !!userId,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     retry: 1,

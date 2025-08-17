@@ -4,8 +4,8 @@ const getAllOrder = () => {
   return axiosClient.get(`/Order/GetAllOrder`);
 };
 
-const getUserPurchasePackage = () => {
-  return axiosClient.get(`/Order/GetUserPurchasePackage`);
+const getUserPurchasePackage = (userId) => {
+  return axiosClient.get(`/Order/GetUserPurchasePackage?userId=${userId}`);
 };
 
 const updateOrderContact = (id) => {

@@ -1,12 +1,12 @@
-import Cookies from 'js-cookie';
 import { Navigate, Outlet } from 'react-router-dom';
-
-const isAuthenticated = () => {
-  return !!Cookies.get('accessToken');
-};
+import { useUserData } from '../hooks/useUserData';
 
 const GuestRoute = () => {
-  return isAuthenticated() ? <Navigate to="/" replace /> : <Outlet />;
+  const { userInfo } = useUserData();
+
+  console.log('check userInfo', userInfo);
+
+  return userInfo ? <Navigate to="/" replace /> : <Outlet />;
 };
 
 export default GuestRoute;
