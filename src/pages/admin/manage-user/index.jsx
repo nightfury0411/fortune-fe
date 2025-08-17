@@ -44,12 +44,14 @@ const ManageUser = () => {
                 {/* {order?.contacted ? 'Đã liên hệ' : 'Chưa liên hệ'} */}
               </Button>
               <Button
-                type={order?.paid === 'Paid' ? 'primary' : 'default'}
-                className={`!py-4 !px-3 font-medium ${
-                  !order?.paid ? '!border-primary !border-2 !text-primary' : ''
+                type={order?.status === 'Paid' ? 'primary' : 'default'}
+                className={`!py-4 !px-3 font-medium shadow-md ${
+                  order?.status === 'Pending'
+                    ? '!border-primary !border-2 !text-primary'
+                    : ''
                 }`}
               >
-                {order?.staus === 'Paid' ? 'Đã thanh toán' : 'Chưa thanh toán'}
+                {order?.status === 'Paid' ? 'Đã thanh toán' : 'Chưa thanh toán'}
               </Button>
             </div>
           </div>
