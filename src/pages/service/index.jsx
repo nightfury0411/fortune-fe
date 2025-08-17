@@ -2,7 +2,10 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { Button, Form, Input } from 'antd';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { useNavigate } from 'react-router-dom';
 import PackageCard from '../../components/packages/card';
+import { PATH_NAME } from '../../constants';
+import { getUserPurchasePackage } from '../../services/order';
 import { getPackage } from '../../services/package';
 import { payment } from '../../services/payment';
 import { formatCurrenyPackage, notify } from '../../utils';
@@ -10,8 +13,10 @@ import { formatCurrenyPackage, notify } from '../../utils';
 const { TextArea } = Input;
 
 const Service = () => {
+  const userId = localStorage.getItem('userId');
   const [form] = Form.useForm();
   const [isButtonLoading, setIsButtonLoading] = useState(false);
+  const navigate = useNavigate();
 
   const { mutate: paymentMutate } = useMutation({
     mutationFn: payment,
@@ -39,6 +44,15 @@ const Service = () => {
         description: err?.response?.data?.message || 'Lỗi hệ thống',
       });
     },
+  });
+
+  const { data: userPurchasePackageRes } = useQuery({
+    queryKey: ['userPurchasePackage', userId],
+    queryFn: () => getUserPurchasePackage(userId),
+    enabled: !!userId,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
 
   const { data: packageRes, isPending } = useQuery({
@@ -82,120 +96,143 @@ const Service = () => {
     paymentMutate(payload);
   };
 
+  const purchasedPackage = Array.isArray(userPurchasePackageRes?.data)
+    ? userPurchasePackageRes.data
+    : [];
+
+  const hasPackage = purchasedPackage.length > 0;
+
   return (
     <>
       <Helmet>
         <title>Fortune | Tư vấn dịch vụ</title>
       </Helmet>
-      <section className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="border border-primary rounded-xl overflow-hidden shadow-lg bg-white max-w-5xl w-full">
-          <div className="bg-primary text-white py-3 text-center font-bold text-lg">
-            SẴN SÀNG KẾT NỐI DOANH NGHIỆP CỦA BẠN
-          </div>
-
-          <div>
-            <p className="text-center text-lg mt-5 font-medium">
-              GÓI ĐANG CHỌN:{' '}
-              <span className="text-primary font-bold">{packages.title}</span>
-            </p>
-
-            <div className="p-6 sm:p-10 flex flex-col md:flex-row gap-8">
-              <div className="flex-1 w-full md:w-[60%] space-y-6">
-                <Form
-                  id="buy-package-form"
-                  className="buy-package-form"
-                  form={form}
-                  layout="vertical"
-                  onFinish={onFinish}
-                  requiredMark={false}
-                >
-                  <Form.Item
-                    name="fullName"
-                    rules={[
-                      { required: true, message: 'Vui lòng nhập họ và tên' },
-                    ]}
-                  >
-                    <Input
-                      className="!border-primary !border-2 !py-3"
-                      placeholder="Họ và tên"
-                    />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="phone"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Vui lòng nhập số điện thoại',
-                      },
-                      {
-                        pattern: /^[0-9]{9,11}$/,
-                        message: 'Số điện thoại không hợp lệ',
-                      },
-                    ]}
-                  >
-                    <Input
-                      className="!border-primary !border-2 !py-3"
-                      placeholder="Số điện thoại"
-                    />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="email"
-                    rules={[
-                      { required: true, message: 'Vui lòng nhập email' },
-                      { type: 'email', message: 'Email không hợp lệ' },
-                    ]}
-                  >
-                    <Input
-                      className="!border-primary !border-2 !py-3"
-                      placeholder="Email"
-                    />
-                  </Form.Item>
-
-                  <Form.Item name="company">
-                    <Input
-                      className="!border-primary !border-2 !py-3"
-                      placeholder="Tên công ty / tổ chức (Bỏ trống nếu đăng ký cho cá nhân)"
-                    />
-                  </Form.Item>
-
-                  <Form.Item name="note">
-                    <TextArea
-                      className="!border-primary !border-2 !py-3"
-                      rows={8}
-                      placeholder="Ghi chú"
-                    />
-                  </Form.Item>
-                </Form>
-              </div>
-
-              <div className="w-full md:w-[40%] rounded-xl flex flex-col items-end">
-                <PackageCard
-                  pkg={packages}
-                  isBuy={false}
-                  handleBuyPackage={() => {}}
-                  loading={isPending}
-                  className="border"
-                />
-              </div>
-            </div>
-
-            <div className="flex justify-center mb-8">
-              <Button
-                htmlType="submit"
-                form="buy-package-form"
-                type="primary"
-                ghost
-                loading={isButtonLoading}
-                className="!bg-primary !text-white !font-semibold w-48 !py-5"
-              >
-                GỬI YÊU CẦU
-              </Button>
-            </div>
+      {hasPackage ? (
+        <div className="p-6 rounded-lg text-center py-12">
+          <h2 className="text-primary font-bold text-lg mb-6">
+            Bạn hiện đang dùng gói này.
+          </h2>
+          <div className="flex items-center justify-center gap-4">
+            <Button
+              type="primary"
+              onClick={() => navigate(PATH_NAME.HOME)}
+              className="bg-primary text-white font-semibold px-6 py-4 rounded-lg shadow-md"
+            >
+              Về trang chủ
+            </Button>
           </div>
         </div>
-      </section>
+      ) : (
+        <section className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="border border-primary rounded-xl overflow-hidden shadow-lg bg-white max-w-5xl w-full">
+            <div className="bg-primary text-white py-3 text-center font-bold text-lg">
+              SẴN SÀNG KẾT NỐI DOANH NGHIỆP CỦA BẠN
+            </div>
+
+            <div>
+              <p className="text-center text-lg mt-5 font-medium">
+                GÓI ĐANG CHỌN:{' '}
+                <span className="text-primary font-bold">{packages.title}</span>
+              </p>
+
+              <div className="p-6 sm:p-10 flex flex-col md:flex-row gap-8">
+                <div className="flex-1 w-full md:w-[60%] space-y-6">
+                  <Form
+                    id="buy-package-form"
+                    className="buy-package-form"
+                    form={form}
+                    layout="vertical"
+                    onFinish={onFinish}
+                    requiredMark={false}
+                  >
+                    <Form.Item
+                      name="fullName"
+                      rules={[
+                        { required: true, message: 'Vui lòng nhập họ và tên' },
+                      ]}
+                    >
+                      <Input
+                        className="!border-primary !border-2 !py-3"
+                        placeholder="Họ và tên"
+                      />
+                    </Form.Item>
+
+                    <Form.Item
+                      name="phone"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Vui lòng nhập số điện thoại',
+                        },
+                        {
+                          pattern: /^[0-9]{9,11}$/,
+                          message: 'Số điện thoại không hợp lệ',
+                        },
+                      ]}
+                    >
+                      <Input
+                        className="!border-primary !border-2 !py-3"
+                        placeholder="Số điện thoại"
+                      />
+                    </Form.Item>
+
+                    <Form.Item
+                      name="email"
+                      rules={[
+                        { required: true, message: 'Vui lòng nhập email' },
+                        { type: 'email', message: 'Email không hợp lệ' },
+                      ]}
+                    >
+                      <Input
+                        className="!border-primary !border-2 !py-3"
+                        placeholder="Email"
+                      />
+                    </Form.Item>
+
+                    <Form.Item name="company">
+                      <Input
+                        className="!border-primary !border-2 !py-3"
+                        placeholder="Tên công ty / tổ chức (Bỏ trống nếu đăng ký cho cá nhân)"
+                      />
+                    </Form.Item>
+
+                    <Form.Item name="note">
+                      <TextArea
+                        className="!border-primary !border-2 !py-3"
+                        rows={8}
+                        placeholder="Ghi chú"
+                      />
+                    </Form.Item>
+                  </Form>
+                </div>
+
+                <div className="w-full md:w-[40%] rounded-xl flex flex-col items-end">
+                  <PackageCard
+                    pkg={packages}
+                    isBuy={false}
+                    handleBuyPackage={() => {}}
+                    loading={isPending}
+                    className="border"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-center mb-8">
+                <Button
+                  htmlType="submit"
+                  form="buy-package-form"
+                  type="primary"
+                  ghost
+                  loading={isButtonLoading}
+                  className="!bg-primary !text-white !font-semibold w-48 !py-5"
+                >
+                  GỬI YÊU CẦU
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
     </>
   );
 };
